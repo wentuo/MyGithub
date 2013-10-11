@@ -10,7 +10,90 @@
 import stanford.karel.*;
 
 public class CheckerboardKarel extends SuperKarel {
-
-	// You fill in this part
-
+	public void run() {
+		putBeeper();
+		
+		//check wall
+		IsWall();
+		// do while it's blocked in front
+		while (frontIsClear()) {
+			beepersAtEast();
+			beepersAtWest();
+		}
+	}
+	private void beepersAtEast() {
+		while (facingEast()) {
+			move();
+			if (frontIsClear()) {
+				move();
+				putBeeper();
+			}
+			upEast();
+		}
+	}
+	private void upEast() {
+		// is it blocked
+		if (frontIsBlocked()) {
+			if (noBeepersPresent()) {
+				turnLeft();
+				if (frontIsClear()) {
+					move();
+					turnLeft();
+					putBeeper();
+				}
+			}
+			else {//if not blocked
+				turnLeft();
+				if (frontIsClear()) {
+					move();
+					turnLeft();
+					move();
+					putBeeper();
+				}
+			}
+		}
+	}
+	private void beepersAtWest() {
+		while (facingWest()) {
+			move();
+			if (frontIsClear()) {
+				move();
+				putBeeper();
+			}
+			upWest();
+		}
+	}
+	private void upWest() {
+		if (frontIsBlocked()) {
+			if (noBeepersPresent()) {
+				turnRight();
+				if (frontIsClear()) {
+					move();
+					turnRight();
+					putBeeper();
+				}
+			}
+			else {
+				turnRight();
+				if (frontIsClear()) {
+					move();
+					turnRight();
+					move();
+					putBeeper();
+				}
+			}
+		}
+	}
+	private void IsWall() {
+		if (frontIsBlocked()) {
+			turnLeft();
+			while (frontIsClear()) {
+				move();
+				if (frontIsClear()) {
+					move();
+					putBeeper();
+				}
+			}
+		}
+	}
 }
