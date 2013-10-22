@@ -16,20 +16,7 @@ public class MidpointFindingKarel extends SuperKarel {
 	
 	public void run () {
 		
-		// difine my method to put final beeper down
-		DownFinalBeepers();
-		while (frontIsClear()) {
-			FinalBeeperToWest();
-			FinalBeeperToEast();
-			
-		}
-
-		
-		
-	}
-	private void DownFinalBeepers() {
-		
-		
+		// define my method to put final beeper down
 		move();
 		putBeeper();
 		while (frontIsClear()) {
@@ -39,64 +26,63 @@ public class MidpointFindingKarel extends SuperKarel {
 		move();
 		putBeeper();
 		
-		
-	}
-	private void FinalBeeperToWest() {
-		
-		
-		
-		if (facingWest()) {
-			move();
-			if (noBeepersPresent()) {
-				putBeeper();
-			}
-			turnAround();
-			move();
-			pickBeeper();
-			turnAround();
-			move();
-			move();
-		}
-			detectBeeper();
-			turnAround();
-			
-			
-			
-		}
-	private void FinalBeeperToEast() {
-		
-		
-		if (facingEast()) {
-			pickBeeper();
-			move();
-			if(noBeepersPresent()) {
-				putBeeper();
-			}
-			move();
-			detectBeeper();
-			turnAround();
-		}
-		
-		
-	}
-	private void detectBeeper() {
-		
-		
-		
-		while (noBeepersPresent()) {
-			if(frontIsClear()) {
-					move();
+		while (frontIsClear()) {
+			if (facingWest()) {
+				move();
+				if (noBeepersPresent()) {
+					putBeeper();
 				}
-			if(frontIsBlocked()) {
 				turnAround();
-				while(frontIsClear()) {
-					if(noBeepersPresent()) {
+				move();
+				pickBeeper();
+				turnAround();
+				move();
+				move();
+			}
+			while (noBeepersPresent()) {
+				if(frontIsClear()) {
 						move();
+					}
+				if(frontIsBlocked()) {
+					turnAround();
+					while(frontIsClear()) {
+						if(noBeepersPresent()) {
+							move();
+						}
 					}
 				}
 			}
+			
+				turnAround();
+				if (facingEast()) {
+					pickBeeper();
+					move();
+					if(noBeepersPresent()) {
+						putBeeper();
+					}
+					move();
+					while (noBeepersPresent()) {
+						if(frontIsClear()) {
+								move();
+							}
+						if(frontIsBlocked()) {
+							turnAround();
+							while(frontIsClear()) {
+								if(noBeepersPresent()) {
+									move();
+								}
+							}
+						}
+					}
+					turnAround();
+				}
+			
 		}
+
+		
+		
 	}
+	
 	
 	
 }
