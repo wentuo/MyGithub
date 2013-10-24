@@ -56,12 +56,28 @@ public class Breakout extends GraphicsProgram {
 
 /** Number of turns */
 	private static final int NTURNS = 3;
-
+	
+	private GOval ball; 
+	
+/** declare an random-number instance  */
+	private RandomGenerator rgen = RandomGenerator.getInstance();
+	
+	private double vx, vy;	
+	
 /* Method: run() */
 /** Runs the Breakout program. */
 	public void run() {
 		/* You fill this in, along with any subsidiary methods */
+		setup(); 
+		 while (true) {  
+	           moveBall();  
+	           checkForCollision();  
+	           pause(50);  
+	       } 
+	}
+	private void setup() {  
 		paddles();
+		ball(); 
 	}
 	public void paddles(){
 		for (int i =0; i< NBRICK_ROWS;i++){
@@ -86,5 +102,44 @@ public class Breakout extends GraphicsProgram {
 		
 		
 	}
+	public void ball(){
+		ball = new GOval(APPLICATION_WIDTH/4,APPLICATION_HEIGHT/2,2*BALL_RADIUS,2*BALL_RADIUS);
+		ball.setFilled(true);
+		add(ball);
+		moveBall();
+		
+	}
+	private void moveBall() {  
+	
+		vx = rgen.nextDouble(-3.0, +3.0);
+        if (rgen.nextBoolean(0.5)) vx = -vx; 
+        ball.move(vx,3);
+	       
+	} 
+	   private void checkForCollision() {  
+	        // determine if ball has dropped below the floor  
+	        if (ball.getY() > getHeight() - BALL_RADIUS) {  
+	              
+	            // change ball's Y velocity to now bounce upwards  
+	            vy = -vy ;  
+	              
+	            // assume bounce will move ball an amount above the  
+	            // floor equal to the amount it would have dropped  
+	            // below the floor.  
+	          //  double diff = ball.getY() - (getHeight() - BALL_RADIUS);  
+	           // ball.move(0, -2 * diff);  
+	        }  
+	       // if (ball.getX() > getWidth() - BALL_RADIUS) {  
+	              
+	            // change ball's Y velocity to now bounce upwards  
+	          //  vx = -vx ;  
+	              
+	            // assume bounce will move ball an amount above the  
+	            // floor equal to the amount it would have dropped  
+	            // below the floor.  
+	          //  double diff = ball.getX() - (getWidth() - BALL_RADIUS);  
+	          //  ball.move(0, -2 * diff);  
+	        //} 
+	    } 
 
 }
