@@ -73,7 +73,8 @@ public class Breakout extends GraphicsProgram {
 		 setup(); 
 		 while (true) {  
 	           moveBall();  
-	           bounceBall();  
+	           bounceBall(); 
+	           checkForCollision(); 
 	           pause(50);  
 	       } 
 	}
@@ -136,30 +137,40 @@ public class Breakout extends GraphicsProgram {
 			vx = -vx;
 		}
 	}
-	   private void checkForCollision() {  
-	        // determine if ball has dropped below the floor  
-	        if (ball.getY() > getHeight() - BALL_RADIUS) {  
-	              
-	            // change ball's Y velocity to now bounce upwards  
-	            vy = -vy ;  
-	              
-	            // assume bounce will move ball an amount above the  
-	            // floor equal to the amount it would have dropped  
-	            // below the floor.  
-	          //  double diff = ball.getY() - (getHeight() - BALL_RADIUS);  
-	           // ball.move(0, -2 * diff);  
-	        }  
-	       // if (ball.getX() > getWidth() - BALL_RADIUS) {  
-	              
-	            // change ball's Y velocity to now bounce upwards  
-	          //  vx = -vx ;  
-	              
-	            // assume bounce will move ball an amount above the  
-	            // floor equal to the amount it would have dropped  
-	            // below the floor.  
-	          //  double diff = ball.getX() - (getWidth() - BALL_RADIUS);  
-	          //  ball.move(0, -2 * diff);  
-	        //} 
-	    } 
+	private void checkForCollision() {  
+		GObject collider = getCollidingObject();
+		if (collider != null){			
+			
+			if (collider == paddle){
+				ball.setLocation(ball.getX(), HEIGHT-PADDLE_Y_OFFSET-BALL_RADIUS*2); //move ball above paddle
+				vy = -vy; 
+							
+			}		
+			else if (collider.getWidth() == BRICK_WIDTH){
+				vy = -vy; 
+				remove(collider); 
+
+			}
+		}
+	} 
+	private GObject getCollidingObject(){
+		GObject collider = null;
+		/** check four corner one by one**/
+		if (collider == null){
+			collider = getElementAt(ball.getX(), ball.getY());
+		}		
+		if (collider == null){
+			collider = getElementAt(ball.getX()+BALL_RADIUS*2, ball.getY());			
+		}
+		if (collider == null){
+			collider = getElementAt(ball.getX(), ball.getY()+BALL_RADIUS*2);			
+		}
+		if (collider == null){
+			collider = getElementAt(ball.getX()+BALL_RADIUS*2, ball.getY()+BALL_RADIUS*2);			
+		}
+		return collider;
+		
+	}
+	  
 
 }
