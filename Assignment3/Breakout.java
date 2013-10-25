@@ -57,7 +57,9 @@ public class Breakout extends GraphicsProgram {
 /** Number of turns */
 	private static final int NTURNS = 3;
 	
+/**private instance variable **/ 	
 	private GOval ball; 
+	private GRect paddle; 
 	
 /** declare an random-number instance  */
 	private RandomGenerator rgen = RandomGenerator.getInstance();
@@ -68,18 +70,19 @@ public class Breakout extends GraphicsProgram {
 /** Runs the Breakout program. */
 	public void run() {
 		/* You fill this in, along with any subsidiary methods */
-		setup(); 
+		 setup(); 
 		 while (true) {  
 	           moveBall();  
-	           checkForCollision();  
+	           bounceBall();  
 	           pause(50);  
 	       } 
 	}
-	private void setup() {  
-		paddles();
-		ball(); 
+	private void setup() { 
+		bricksSetup(); 
+		paddleSetup();
+		ballSetup();
 	}
-	public void paddles(){
+	public void bricksSetup(){
 		for (int i =0; i< NBRICK_ROWS;i++){
 			for(int j = 0; j<NBRICKS_PER_ROW;j++){
 				GRect brick = new GRect(j*(BRICK_WIDTH+BRICK_SEP),70+i*(BRICK_SEP+BRICK_HEIGHT),BRICK_WIDTH,8);
@@ -102,20 +105,37 @@ public class Breakout extends GraphicsProgram {
 		
 		
 	}
-	public void ball(){
+	public void ballSetup(){
 		ball = new GOval(APPLICATION_WIDTH/4,APPLICATION_HEIGHT/2,2*BALL_RADIUS,2*BALL_RADIUS);
 		ball.setFilled(true);
 		add(ball);
 		moveBall();
+		vx = rgen.nextDouble(1.0, +3.0);
+        if (rgen.nextBoolean(0.5)) vx = -vx; 
+        vy=3.0;
+		
+	}
+	public void paddleSetup(){
+		paddle = new GRect((APPLICATION_WIDTH-PADDLE_WIDTH)/2, APPLICATION_HEIGHT - PADDLE_Y_OFFSET, PADDLE_WIDTH, PADDLE_HEIGHT);
+		paddle.setFilled(true);
+		add(paddle);
 		
 	}
 	private void moveBall() {  
-	
-		vx = rgen.nextDouble(-3.0, +3.0);
-        if (rgen.nextBoolean(0.5)) vx = -vx; 
-        ball.move(vx,3);
-	       
+        ball.move(vx,vy);       
 	} 
+	private void bounceBall(){
+		if(ball.getY()<0){
+			ball.setLocation(ball.getX(),0);
+			vy = -vy;
+		}else if(2*BALL_RADIUS>HEIGHT-ball.getY()){
+			vy = -vy;			
+		}else if(ball.getX()<0){
+			vx = -vx;
+		}else if(2*BALL_RADIUS>WIDTH - ball.getX()){
+			vx = -vx;
+		}
+	}
 	   private void checkForCollision() {  
 	        // determine if ball has dropped below the floor  
 	        if (ball.getY() > getHeight() - BALL_RADIUS) {  
