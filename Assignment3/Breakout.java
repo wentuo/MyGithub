@@ -57,6 +57,8 @@ public class Breakout extends GraphicsProgram {
 /** Number of turns */
 	private static final int NTURNS = 3;
 	
+	private int ball_remaining = NTURNS;
+	
 /**private instance variable **/ 	
 	private GOval ball; 
 	private GRect paddle; 
@@ -65,6 +67,8 @@ public class Breakout extends GraphicsProgram {
 	private RandomGenerator rgen = RandomGenerator.getInstance();
 	
 	private double vx, vy;	
+	
+	
 	
 /* Method: run() */
 /** Runs the Breakout program. */
@@ -140,7 +144,12 @@ public class Breakout extends GraphicsProgram {
 			ball.setLocation(ball.getX(),0);
 			vy = -vy;
 		}else if(2*BALL_RADIUS>HEIGHT-ball.getY()){
-			vy = -vy;			
+			vy = -vy;	
+			ball_remaining--;
+			remove(ball);
+			if (ball_remaining>0){
+				ballSetup();
+			}
 		}else if(ball.getX()<0){
 			vx = -vx;
 		}else if(2*BALL_RADIUS>WIDTH - ball.getX()){
