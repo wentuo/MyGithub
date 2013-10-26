@@ -71,6 +71,7 @@ public class Breakout extends GraphicsProgram {
 	public void run() {
 		/* You fill this in, along with any subsidiary methods */
 		 setup(); 
+		 addMouseListeners();
 		 while (true) {  
 	           moveBall();  
 	           bounceBall(); 
@@ -82,6 +83,15 @@ public class Breakout extends GraphicsProgram {
 		bricksSetup(); 
 		paddleSetup();
 		ballSetup();
+	}
+	public void mouseMoved(MouseEvent e){
+		if(e.getX()<0){
+			paddle.setLocation(0,APPLICATION_HEIGHT-PADDLE_Y_OFFSET);
+		}else if(e.getX()+PADDLE_WIDTH>APPLICATION_WIDTH){
+			paddle.setLocation(APPLICATION_WIDTH-PADDLE_WIDTH,APPLICATION_HEIGHT-PADDLE_Y_OFFSET);
+		}else {
+			paddle.setLocation(e.getX(),APPLICATION_HEIGHT-PADDLE_Y_OFFSET);
+		}
 	}
 	public void bricksSetup(){
 		for (int i =0; i< NBRICK_ROWS;i++){
