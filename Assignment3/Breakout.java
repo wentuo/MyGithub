@@ -59,10 +59,14 @@ public class Breakout extends GraphicsProgram {
 	
 	private int ball_remaining = NTURNS;
 	
+	private int bricks_counter = 0;
+	private boolean continueplay = true;
+	
 /**private instance variable **/ 	
 	private GOval ball; 
 	private GRect paddle; 
-	
+	private GRect message_box; 
+	private GLabel label;
 /** declare an random-number instance  */
 	private RandomGenerator rgen = RandomGenerator.getInstance();
 	
@@ -76,7 +80,7 @@ public class Breakout extends GraphicsProgram {
 		/* You fill this in, along with any subsidiary methods */
 		 setup(); 
 		 addMouseListeners();
-		 while (true) {  
+		 while (continueplay) {  
 	           moveBall();  
 	           bounceBall(); 
 	           checkForCollision(); 
@@ -87,6 +91,15 @@ public class Breakout extends GraphicsProgram {
 		bricksSetup(); 
 		paddleSetup();
 		ballSetup();
+	}
+	private void messageBox(String message){
+		message_box = new GRect(PADDLE_WIDTH/2-30,20,60,20);
+		message_box.setFilled(true);
+		message_box.setFillColor(Color.RED);
+		add(message_box);
+		label = new GLabel(message);
+		label.setLocation(PADDLE_WIDTH/2-30,20);
+		add(label);
 	}
 	public void mouseMoved(MouseEvent e){
 		if(e.getX()<0){
@@ -114,6 +127,7 @@ public class Breakout extends GraphicsProgram {
 					brick.setFillColor(Color.CYAN);
 				}	
 				add(brick);
+				bricks_counter++;
 			}
 			
 		}
@@ -121,13 +135,16 @@ public class Breakout extends GraphicsProgram {
 		
 	}
 	public void ballSetup(){
-		ball = new GOval(APPLICATION_WIDTH/4,APPLICATION_HEIGHT/2,2*BALL_RADIUS,2*BALL_RADIUS);
-		ball.setFilled(true);
-		add(ball);
-		moveBall();
-		vx = rgen.nextDouble(1.0, +3.0);
-        if (rgen.nextBoolean(0.5)) vx = -vx; 
-        vy=3.0;
+		if(bricks_counter>0){
+			ball = new GOval(APPLICATION_WIDTH/4,APPLICATION_HEIGHT/2,2*BALL_RADIUS,2*BALL_RADIUS);
+			ball.setFilled(true);
+			add(ball);
+			moveBall();
+			vx = rgen.nextDouble(10.0, +15.0);
+	        if (rgen.nextBoolean(0.5)) vx = -vx; 
+	        vy=10.0;
+		}
+
 		
 	}
 	public void paddleSetup(){
@@ -140,6 +157,7 @@ public class Breakout extends GraphicsProgram {
         ball.move(vx,vy);       
 	} 
 	private void bounceBall(){
+		String ball_message;
 		if(ball.getY()<0){
 			ball.setLocation(ball.getX(),0);
 			vy = -vy;
@@ -147,8 +165,30 @@ public class Breakout extends GraphicsProgram {
 			vy = -vy;	
 			ball_remaining--;
 			remove(ball);
-			if (ball_remaining>0){
+
+			if (ball_remaining>1){
+				ball_message=ball_remaining+"balls left";
+				messageBox(ball_message);
+				pause(2500);
+				remove(message_box);
+				remove(label);
 				ballSetup();
+				
+			}else if(ball_remaining==1){
+				ball_message=ball_remaining+"ball left";
+				messageBox(ball_message);
+				pause(2500);
+				remove(message_box);
+				remove(label);
+				ballSetup();			
+			} else{
+				ball_message="you lose";
+				messageBox(ball_message);
+				pause(2500);
+				remove(message_box);
+				remove(label);
+				remove(ball);
+				continueplay = false;
 			}
 		}else if(ball.getX()<0){
 			vx = -vx;
@@ -157,6 +197,7 @@ public class Breakout extends GraphicsProgram {
 		}
 	}
 	private void checkForCollision() {  
+		String win_message;
 		GObject collider = getCollidingObject();
 		if (collider != null){			
 			
@@ -167,8 +208,16 @@ public class Breakout extends GraphicsProgram {
 			}		
 			else if (collider.getWidth() == BRICK_WIDTH){
 				vy = -vy; 
-				remove(collider); 
-
+				remove(collider);
+				bricks_counter--;
+				if(bricks_counter==0){
+					win_message="you win";
+					messageBox(win_message);
+					pause(2500);
+					remove(message_box);
+					remove(label);
+					remove(ball);
+				}
 			}
 		}
 	} 
