@@ -71,11 +71,9 @@ public class Breakout extends GraphicsProgram {
 	private RandomGenerator rgen = RandomGenerator.getInstance();
 	
 	private double vx, vy;	
-	
-	
+
 	
 /* Method: run() */
-/** Runs the Breakout program. */
 	public void run() {
 		/* You fill this in, along with any subsidiary methods */
 		 setup(); 
@@ -92,6 +90,7 @@ public class Breakout extends GraphicsProgram {
 		paddleSetup();
 		ballSetup();
 	}
+	/** define message box method **/
 	private void messageBox(String message){
 		message_box = new GRect(PADDLE_WIDTH/2-30,20,60,20);
 		message_box.setFilled(true);
@@ -101,6 +100,7 @@ public class Breakout extends GraphicsProgram {
 		label.setLocation(PADDLE_WIDTH/2-30,20);
 		add(label);
 	}
+	/** mouseMoved event response **/
 	public void mouseMoved(MouseEvent e){
 		if(e.getX()<0){
 			paddle.setLocation(0,APPLICATION_HEIGHT-PADDLE_Y_OFFSET);
@@ -110,6 +110,8 @@ public class Breakout extends GraphicsProgram {
 			paddle.setLocation(e.getX(),APPLICATION_HEIGHT-PADDLE_Y_OFFSET);
 		}
 	}
+	
+	/** first step:set up bricks as requirement **/
 	public void bricksSetup(){
 		for (int i =0; i< NBRICK_ROWS;i++){
 			for(int j = 0; j<NBRICKS_PER_ROW;j++){
@@ -131,9 +133,16 @@ public class Breakout extends GraphicsProgram {
 			}
 			
 		}
-		
+			
+	}
+	/** setting up paddle method **/
+	public void paddleSetup(){
+		paddle = new GRect((APPLICATION_WIDTH-PADDLE_WIDTH)/2, APPLICATION_HEIGHT - PADDLE_Y_OFFSET, PADDLE_WIDTH, PADDLE_HEIGHT);
+		paddle.setFilled(true);
+		add(paddle);
 		
 	}
+	/** setting up ball method **/
 	public void ballSetup(){
 		if(bricks_counter>0){
 			ball = new GOval(APPLICATION_WIDTH/4,APPLICATION_HEIGHT/2,2*BALL_RADIUS,2*BALL_RADIUS);
@@ -147,15 +156,12 @@ public class Breakout extends GraphicsProgram {
 
 		
 	}
-	public void paddleSetup(){
-		paddle = new GRect((APPLICATION_WIDTH-PADDLE_WIDTH)/2, APPLICATION_HEIGHT - PADDLE_Y_OFFSET, PADDLE_WIDTH, PADDLE_HEIGHT);
-		paddle.setFilled(true);
-		add(paddle);
-		
-	}
+	/** Okay,let the ball moving **/
 	private void moveBall() {  
         ball.move(vx,vy);       
 	} 
+	/** changing ball direction while bouncing wall except down wall 
+	 * and adding continue playing conditions**/
 	private void bounceBall(){
 		String ball_message;
 		if(ball.getY()<0){
@@ -188,14 +194,15 @@ public class Breakout extends GraphicsProgram {
 				remove(message_box);
 				remove(label);
 				remove(ball);
-				continueplay = false;
+				continueplay = false;// continue playing condition,important!!!
 			}
 		}else if(ball.getX()<0){
-			vx = -vx;
+			vx = -vx; //change direction while  bouncing left wall
 		}else if(2*BALL_RADIUS>WIDTH - ball.getX()){
-			vx = -vx;
+			vx = -vx;//change direction while  bouncing right wall
 		}
 	}
+	/** checking collision with paddle or brick **/
 	private void checkForCollision() {  
 		String win_message;
 		GObject collider = getCollidingObject();
@@ -221,6 +228,7 @@ public class Breakout extends GraphicsProgram {
 			}
 		}
 	} 
+	/** condition for collision,Judging four corners for object **/
 	private GObject getCollidingObject(){
 		GObject collider = null;
 		/** check four corner one by one**/
