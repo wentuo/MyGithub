@@ -9,7 +9,7 @@ import acm.program.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class NameSurfer extends ConsoleProgram {
+public class NameSurfer extends Program implements NameSurferConstants {
 
 /* Method: init() */
 /**
@@ -25,6 +25,11 @@ public class NameSurfer extends ConsoleProgram {
 	     add(new JButton("Graph"), SOUTH);
 	     add(new JButton("Clear"), SOUTH);
 	     addActionListeners();
+	     
+	     namesdatabase = new NameSurferDataBase(NAMES_DATA_FILE);
+	     
+	     graph = new NameSurferGraph();
+	     add(graph);
 		
 	}
 
@@ -38,12 +43,14 @@ public class NameSurfer extends ConsoleProgram {
 		
 		String cmd = e.getActionCommand();
 		if (cmd.equals("Graph")) {
-			println("Graph: " + nameField.getText());
+			//println("Graph: " + nameField.getText());
 		} else if(cmd.equals("Clear")){
-			println("Clear");
+			//println("Clear");
 			nameField.setText("");
 			
 		}
 	}
 	private JTextField nameField;
+	private NameSurferDataBase namesdatabase;
+	private NameSurferGraph graph;
 }
