@@ -22,10 +22,13 @@ public class NameSurfer extends Program implements NameSurferConstants {
 	      
 	     nameField = new JTextField(20);
 	     add(nameField, SOUTH);
+	     
 	     Graph = new JButton("Graph");
 	     add(Graph, SOUTH);
+	     
 	     Clear = new JButton("Clear");
 	     add(Clear, SOUTH);
+	     
 	     addActionListeners();
 	     
 	     namesdatabase = new NameSurferDataBase(NAMES_DATA_FILE);

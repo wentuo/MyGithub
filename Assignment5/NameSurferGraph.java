@@ -89,6 +89,7 @@ public class NameSurferGraph extends GCanvas
 		 for (int i=0; i<NDECADES-1; i++){
 			 int var_rank1 = entry.getRank(i);
 			 int var_rank2 = entry.getRank(i+1);
+			 String labelname;
 			 
 			 double x1 = (getWidth()/NDECADES)*i;
 			 double x2 = (getWidth()/NDECADES)*(i+1);
@@ -99,11 +100,11 @@ public class NameSurferGraph extends GCanvas
              add(line);
              
              if(var_rank1==0){
-            	 name= name + " *";
+            	 labelname= name + " *";
              }else{
-            	 name = name + " " + var_rank1;
+            	 labelname = name + " " + var_rank1;
              }
-             GLabel label = new GLabel(name);
+             GLabel label = new GLabel(labelname);
              label.setColor(getColor(entryNumber));
              add(label, x1+3, y1-3);
 			 
