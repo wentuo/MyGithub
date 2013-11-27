@@ -86,7 +86,7 @@ public class NameSurferGraph extends GCanvas
 	}
 	 private void drawEntry(NameSurferEntry entry, int entryNumber) {
 		 String name = entry.getName();
-		 for (int i=0; i<NDECADES; i++){
+		 for (int i=0; i<NDECADES-1; i++){
 			 int var_rank1 = entry.getRank(i);
 			 int var_rank2 = entry.getRank(i+1);
 			 

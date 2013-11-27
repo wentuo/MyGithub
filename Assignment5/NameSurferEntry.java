@@ -13,7 +13,7 @@ public class NameSurferEntry implements NameSurferConstants {
 
 
 	private String name;
-    private int[] decadeslist;
+    private int[] decadeslist= new int[NDECADES];
 /**
  * Creates a new NameSurferEntry from a data line as it appears
  * in the data file.  Each line begins with the name, which is
@@ -22,12 +22,15 @@ public class NameSurferEntry implements NameSurferConstants {
  */
 	public NameSurferEntry(String line) {
 		
-		String splitword[] = line.split(" ");
-		decadeslist = new int[NDECADES];
-		name = splitword[0];
-		for(int i=0;i<NDECADES;i++){
-			decadeslist[i]=Integer.parseInt(splitword[i+1]);
-		}
+		int endSym = line.indexOf(" ");
+        name = line.substring(0, endSym);
+		
+        String numbers = line.substring(endSym + 1);
+        StringTokenizer tokenizer = new StringTokenizer(numbers);
+        for(int i = 0; tokenizer.hasMoreTokens(); i++) {
+                int Rank = Integer.parseInt(tokenizer.nextToken());
+                decadeslist[i] = Rank;
+        }
 	}
 
 /* Method: getName() */
@@ -48,7 +51,7 @@ public class NameSurferEntry implements NameSurferConstants {
  * not appear in a decade, the rank value is 0.
  */
 	public int getRank(int decade) {
-		// You need to turn this stub into a real implementation //
+		
 		return decadeslist[decade];
 	}
 

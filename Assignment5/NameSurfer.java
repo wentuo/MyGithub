@@ -17,13 +17,15 @@ public class NameSurfer extends Program implements NameSurferConstants {
  * and initializing the interactors at the bottom of the window.
  */
 	public void init() {
-		 add(new JLabel("Name"), SOUTH);
+		 namelabel = new JLabel("Name ");
+		 add(namelabel, SOUTH);
 	      
 	     nameField = new JTextField(20);
-	      
 	     add(nameField, SOUTH);
-	     add(new JButton("Graph"), SOUTH);
-	     add(new JButton("Clear"), SOUTH);
+	     Graph = new JButton("Graph");
+	     add(Graph, SOUTH);
+	     Clear = new JButton("Clear");
+	     add(Clear, SOUTH);
 	     addActionListeners();
 	     
 	     namesdatabase = new NameSurferDataBase(NAMES_DATA_FILE);
@@ -53,6 +55,9 @@ public class NameSurfer extends Program implements NameSurferConstants {
 			graph.clear();  			
 		}
 	}
+	private JLabel namelabel;
+	private JButton Graph;
+    private JButton Clear;
 	private JTextField nameField;
 	private NameSurferDataBase namesdatabase;
 	private NameSurferGraph graph;
