@@ -43,11 +43,14 @@ public class NameSurfer extends Program implements NameSurferConstants {
 		
 		String cmd = e.getActionCommand();
 		if (cmd.equals("Graph")) {
-			//println("Graph: " + nameField.getText());
-		} else if(cmd.equals("Clear")){
-			//println("Clear");
-			nameField.setText("");
+			  NameSurferEntry entry = namesdatabase.findEntry(nameField.getText());
+	          if (entry != null)
+	          {
+	             graph.addEntry(entry);
+	          }
 			
+		} else if(cmd.equals("Clear")){
+			graph.clear();  			
 		}
 	}
 	private JTextField nameField;
