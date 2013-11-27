@@ -95,7 +95,7 @@ public class NameSurferGraph extends GCanvas
 			 double y1= getY(var_rank1);
 			 double y2= getY(var_rank2);
 			 GLine line = new GLine(x1, y1, x2, y2);
-			 line.setColor(getColor(i));
+			 line.setColor(getColor(entryNumber));
              add(line);
              
              if(var_rank1==0){
@@ -104,7 +104,7 @@ public class NameSurferGraph extends GCanvas
             	 name = name + " " + var_rank1;
              }
              GLabel label = new GLabel(name);
-             label.setColor(getColor(i));
+             label.setColor(getColor(entryNumber));
              add(label, x1+3, y1-3);
 			 
 		 }
