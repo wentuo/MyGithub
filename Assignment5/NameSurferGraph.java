@@ -10,7 +10,11 @@ import acm.graphics.*;
 import java.awt.event.*;
 import java.util.*;
 import java.awt.*;
-
+/**
+ * 
+ * @author win,want to make comments for the project.
+ *
+ */
 public class NameSurferGraph extends GCanvas
 	implements NameSurferConstants, ComponentListener {
 	private ArrayList<NameSurferEntry> drawList = new ArrayList<NameSurferEntry>();
